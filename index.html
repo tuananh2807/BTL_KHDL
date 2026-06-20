@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Dashboard Thời Tiết</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>🌦️ HỆ THỐNG DỰ BÁO THỜI TIẾT THÁI NGUYÊN</h1>
+
+<p>Phân tích dữ liệu và Machine Learning</p>
+
+<div class="time-box" id="clock"></div>
+
+</div>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Dự báo nhiệt độ ngày mai</h3>
+
+<h2>{{ nhiet_do }}°C</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Khả năng mưa ngày mai</h3>
+
+<h2>{{ mua }}</h2>
+
+</div>
+
+</div>
+
+<div class="menu">
+
+<a class="btn" href="/phan-tich">
+📊 Phân tích dữ liệu
+</a>
+
+<a class="btn" href="/du-doan-nhiet-do">
+🌡️ Dự đoán nhiệt độ
+</a>
+
+<a class="btn" href="/du-doan-mua">
+⛈️ Dự đoán mưa
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+function updateClock(){
+
+let now=new Date();
+
+let d=String(now.getDate()).padStart(2,'0');
+let m=String(now.getMonth()+1).padStart(2,'0');
+let y=now.getFullYear();
+
+let h=String(now.getHours()).padStart(2,'0');
+let p=String(now.getMinutes()).padStart(2,'0');
+let s=String(now.getSeconds()).padStart(2,'0');
+
+document.getElementById("clock").innerHTML=
+"🕒 "+d+"/"+m+"/"+y+
+" - "+h+":"+p+":"+s;
+
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Dự đoán nhiệt độ</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>🌡️ DỰ ĐOÁN NHIỆT ĐỘ</h1>
+
+</div>
+
+<div class="panel">
+
+<h1 style="text-align:center">
+
+{{ nhiet_do }}°C
+
+</h1>
+
+<p style="text-align:center">
+
+Kết quả dự đoán bằng Linear Regression
+
+</p>
+
+</div>
+
+<a class="btn back" href="/">
+🏠 Trang chủ
+</a>
+
+</body>
+</html>

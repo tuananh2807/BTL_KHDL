@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dự đoán mưa</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    overflow:hidden;
+    font-family:Segoe UI,sans-serif;
+}
+
+/* =====================
+   TRỜI MƯA
+===================== */
+
+.mua{
+    background:
+    linear-gradient(
+    to bottom,
+    #0f172a,
+    #1e293b,
+    #334155
+    );
+}
+
+.rain{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+.drop{
+
+    position:absolute;
+
+    width:2px;
+
+    height:25px;
+
+    background:white;
+
+    opacity:.5;
+
+    animation:rain linear infinite;
+}
+
+@keyframes rain{
+
+from{
+transform:translateY(-100px);
+}
+
+to{
+transform:translateY(110vh);
+}
+
+}
+
+.lightning{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:white;
+
+opacity:0;
+
+animation:flash 6s infinite;
+
+z-index:2;
+}
+
+@keyframes flash{
+
+0%,95%,100%{
+opacity:0;
+}
+
+96%{
+opacity:.8;
+}
+
+97%{
+opacity:0;
+}
+
+98%{
+opacity:.4;
+}
+
+}
+
+/* =====================
+   TRỜI NẮNG
+===================== */
+
+.nang{
+
+background:
+linear-gradient(
+to bottom,
+#4fc3f7,
+#81d4fa,
+#e1f5fe
+);
+
+}
+
+.sun{
+
+position:absolute;
+
+top:60px;
+right:120px;
+
+width:180px;
+height:180px;
+
+border-radius:50%;
+
+background:#ffd600;
+
+box-shadow:
+0 0 80px #ffd600,
+0 0 150px #ffee58;
+
+animation:rotateSun 30s linear infinite;
+
+z-index:1;
+}
+
+@keyframes rotateSun{
+
+from{
+transform:rotate(0deg);
+}
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+.cloud{
+
+position:absolute;
+
+width:200px;
+height:70px;
+
+background:white;
+
+border-radius:50px;
+
+opacity:.9;
+
+animation:moveCloud linear infinite;
+
+}
+
+.cloud:before{
+
+content:"";
+
+position:absolute;
+
+width:90px;
+height:90px;
+
+border-radius:50%;
+
+background:white;
+
+top:-40px;
+left:20px;
+
+}
+
+.cloud:after{
+
+content:"";
+
+position:absolute;
+
+width:110px;
+height:110px;
+
+border-radius:50%;
+
+background:white;
+
+top:-50px;
+left:70px;
+
+}
+
+@keyframes moveCloud{
+
+from{
+transform:translateX(-300px);
+}
+
+to{
+transform:translateX(1800px);
+}
+
+}
+
+/* =====================
+   PANEL
+===================== */
+
+.container{
+
+position:relative;
+
+z-index:10;
+
+padding-top:80px;
+
+text-align:center;
+
+color:white;
+}
+
+.title{
+
+font-size:60px;
+
+font-weight:bold;
+
+margin-bottom:40px;
+}
+
+.panel{
+
+width:80%;
+
+margin:auto;
+
+padding:40px;
+
+border-radius:30px;
+
+background:
+rgba(255,255,255,0.15);
+
+backdrop-filter:blur(12px);
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.3);
+}
+
+.result{
+
+font-size:70px;
+
+font-weight:bold;
+}
+
+.btn{
+
+display:inline-block;
+
+margin-top:40px;
+
+padding:15px 30px;
+
+background:#2563eb;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:15px;
+
+font-size:20px;
+
+transition:.3s;
+}
+
+.btn:hover{
+
+background:#1d4ed8;
+
+transform:scale(1.05);
+}
+
+</style>
+
+</head>
+
+<body class="{% if mua == 'Có mưa' %}mua{% else %}nang{% endif %}">
+
+{% if mua == "Có mưa" %}
+
+<div class="rain" id="rain"></div>
+
+<div class="lightning"></div>
+
+{% else %}
+
+<div class="sun"></div>
+
+<div class="cloud"
+style="
+top:150px;
+animation-duration:35s;">
+</div>
+
+<div class="cloud"
+style="
+top:280px;
+animation-duration:50s;">
+</div>
+
+<div class="cloud"
+style="
+top:100px;
+animation-duration:70s;">
+</div>
+
+{% endif %}
+
+<div class="container">
+
+<div class="title">
+
+{% if mua == "Có mưa" %}
+⛈️ DỰ BÁO CÓ MƯA
+{% else %}
+☀️ DỰ BÁO TRỜI NẮNG
+{% endif %}
+
+</div>
+
+<div class="panel">
+
+<div class="result">
+
+{{ mua }}
+
+</div>
+
+</div>
+
+<a href="/" class="btn">
+🏠 Trang chủ
+</a>
+
+</div>
+
+<script>
+
+const rain=document.getElementById("rain");
+
+if(rain){
+
+for(let i=0;i<500;i++){
+
+let drop=document.createElement("div");
+
+drop.classList.add("drop");
+
+drop.style.left=Math.random()*100+"%";
+
+drop.style.top=Math.random()*100+"%";
+
+drop.style.animationDuration=
+(0.3+Math.random())+"s";
+
+drop.style.animationDelay=
+Math.random()+"s";
+
+rain.appendChild(drop);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

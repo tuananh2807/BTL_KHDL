@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Phân tích dữ liệu</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>📊 PHÂN TÍCH DỮ LIỆU</h1>
+
+</div>
+
+<div class="panel">
+
+<h2>Nhiệt độ trung bình theo tháng</h2>
+
+<img src="{{ url_for('static',filename='nhiet_do_trung_binh_thang.png') }}">
+
+<h2>Tháng nóng nhất</h2>
+
+<img src="{{ url_for('static',filename='thang_nong_nhat.png') }}">
+
+<h2>Tháng lạnh nhất</h2>
+
+<img src="{{ url_for('static',filename='thang_lanh_nhat.png') }}">
+
+<h2>Tháng mưa nhiều nhất</h2>
+
+<img src="{{ url_for('static',filename='thang_mua_nhieu_nhat.png') }}">
+
+<h2>Tháng mưa ít nhất</h2>
+
+<img src="{{ url_for('static',filename='thang_mua_it_nhat.png') }}">
+
+</div>
+
+<a class="btn back" href="/">
+🏠 Trang chủ
+</a>
+
+</body>
+</html>
